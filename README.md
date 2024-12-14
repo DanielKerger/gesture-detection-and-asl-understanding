@@ -1,16 +1,19 @@
-# Realtime Gesture Detection & Understanding of American Sign Language with Transfer Learning
+# From Pixels to Letters: Building a High-Accuracy, Real-Time ASL Gesture Detection Pipeline
 ---
-Jonas Rheiner∗, Daniel Kerger†, Matthias Drüppel‡
+Jonas Rheiner<sup>a</sup> , Daniel Kerger<sup>a</sup>, Matthias Drüppel<sup>b, 1</sup>
 
-Computer Science Department of the Baden-Wuerttemberg Cooperative State University (DHBW)
+<sup>a</sup> Center for Advanced Studies, Baden-Württemberg Cooperative State University (DHBW), Bildungscampus 13, 74076, Heilbronn, Germany
 
-Heilbronn and Stuttgart, Germany
+<sup>b</sup> Computer Science Department - Center for Artificial Intelligence, Baden-Württemberg Cooperative State University (DHBW), Lerchenstraße
+1, 70174, Stuttgart, Germany
 
-Email: ∗cas367123@cas.dhbw.de, †cas366673@cas.dhbw.de, ‡matthias.drueppel@dhbw-stuttgart.de
+ORCID(s): 0009-0005-3112-8634 (J. Rheiner); 0000-0003-3064-1637 (D. Kerger); 0000-0002-6375-7743 (M. Drüppel)
+
+Email: <sup>1</sup>matthias.drueppel@dhbw-stuttgart.de (M. Drüppel)
 
 ## Abstract
 
-Sign language is essential for the deaf and hardof-hearing communities as it allows for effective communication and inclusivity. However, outside of these communities, communication through sign language is often limited by a lack of widespread understanding and proficiency among the general population. To bridge this gap, we develop a prototype for realtime detection and understanding of American Sign Language (ASL). In this paper, we build a deep learning image classification model leveraging transfer learning. Our model achieves a 99.72% accuracy score, outperforming state-of-the-art models. To enable real time applications without GPU acceleration, we achieve an inference time of less than 500 milliseconds per input frame on the validation data. The underlying validation data consists of static images of ASL hand signs representing each letter in the alphabet and three utility classes. Due to the transfer learning approach, we are able to train the model using little computational resources compared to training a similar classifier from scratch. Furthermore, we utilize the visualization technique Gradientweighted Class Activation Mapping (Grad-CAM) to examine whether the model has learned meaningful visual features from the training data. Our findings indicate that the model is capable of successfully identifying and distinguishing between different hand signs, even when presented as part of a single input image. Index Terms—American Sign Language, Deep Learning, Convolutional Neural Networks, Transfer Learning
+Sign language is essential for the deaf and hard-of-hearing communities as it allows for effective communication and inclusivity. However, outside of these communities, communication through sign language is often limited by a lack of widespread understanding and proficiency among the general population. To bridge this gap, we develop a prototype for real-time detection and understanding of American Sign Language (ASL). In this paper, we build a multi-step classification pipeline. The core of this pipeline is a deep learning image classification model trained through transfer learning. Our model achieves a 99.81% accuracy score on the test set, outperforming state-of-the-art models. To enable real time applications without GPU acceleration, we achieve an inference time of less than 500 milliseconds per input frame. The used dataset consists of static images of ASL hand signs representing each letter in the alphabet and three utility classes. Due to the transfer learning approach, we are able to train the model using little computational resources compared to training a similar classifier from scratch. Furthermore, we utilize the visualization technique Gradient-weighted Class Activation Mapping (Grad-CAM) to examine whether the model has learned meaningful visual features from the training data. Our findings indicate that the model is capable of robustly identifying and distinguishing between different hand signs, even if the input image consists of more than a single hand gesture.
 
 ## Overview
 

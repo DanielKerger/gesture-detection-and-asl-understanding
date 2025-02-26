@@ -17,7 +17,7 @@ We introduce a real-time American Sign Language (ASL) recognition system bridgin
 
 ## Overview
 
-This project implements a framework to detect American Sign Language (ASL) signs using deep learning. The framework is based on the [MobileNetV2](https://arxiv.org/abs/1801.04381) architecture and uses the [ASL Alphabet dataset](https://www.kaggle.com/grassknoted/asl-alphabet) from Kaggle. The dataset contains 87,000 images of 200x200 pixels, each representing a letter of the ASL alphabet.
+This project implements a framework to detect American Sign Language (ASL) signs using deep learning. The framework is based on the [MobileNetV2](https://arxiv.org/abs/1801.04381) architecture.
 
 The framework is implemented in Python using the [TensorFlow](https://www.tensorflow.org/) and [Keras](https://keras.io/) libraries. It consists of the following steps:
 

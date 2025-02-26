@@ -1,6 +1,6 @@
 # From Pixels to Letters: Building a High-Accuracy, CPU-Real-Time American Sign Language Detection Pipeline
 ---
-Jonas Rheiner<sup>a</sup> , Daniel Kerger<sup>a</sup>, Matthias Drüppel<sup>b, 1</sup>
+Jonas Rheiner<sup>a, 1</sup> , Daniel Kerger<sup>a, 2</sup>, Matthias Drüppel<sup>b, 3</sup>
 
 <sup>a</sup> Center for Advanced Studies, Baden-Württemberg Cooperative State University (DHBW), Bildungscampus 13, 74076, Heilbronn, Germany
 
@@ -9,7 +9,7 @@ Jonas Rheiner<sup>a</sup> , Daniel Kerger<sup>a</sup>, Matthias Drüppel<sup>b, 
 
 ORCID(s): 0009-0005-3112-8634 (J. Rheiner); 0000-0003-3064-1637 (D. Kerger); 0000-0002-6375-7743 (M. Drüppel)
 
-Email: <sup>1</sup>matthias.drueppel@dhbw-stuttgart.de (M. Drüppel)
+Email: <sup>1</sup>jonas.rheiner@hpe.com (J. Rheiner) <sup>2</sup>daniel.kerger@hpe.com (D. Kerger) <sup>3</sup>matthias.drueppel@dhbw-stuttgart.de (M. Drüppel)
 
 ## Abstract
 

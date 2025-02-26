@@ -1,5 +1,4 @@
-# From Pixels to Letters: A High-Accuracy CPU-Real-Time American Sign Language Detection
-Pipeline
+# From Pixels to Letters: A High-Accuracy CPU-Real-Time American Sign Language Detection Pipeline
 ---
 Jonas Rheiner<sup>a, 1</sup> , Daniel Kerger<sup>a, 2</sup>, Matthias Drüppel<sup>b, 3</sup>
 

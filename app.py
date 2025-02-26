@@ -9,48 +9,54 @@ from mediapipe.tasks.python import vision
 import mediapipe as mp
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import re
+import scienceplots
 
 IMAGE_SIZE = (200, 200)
 MODEL_PATH = "mobilenetv3large-finetune-aug.h5"
 
 class App:
     def __init__(self, window, window_title, video_source=0):
-        """Initializes the app with the window, window title, and video source. Also initializes the class labels, model, frame, detected word, and window size.
+        """Initializes the app with the window, window title, and video source. Also initializes the class labels, model, frame, detected word, and window size."""
 
-        Args:
-            window: The window to display the app.
-            window_title: The title of the window.
-            video_source: The video source to capture frames from. Default is 0.
-
-        Returns:
-            None    
-        """
         self.class_labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'del', 'nothing', 'space']
         self.model = tf.keras.models.load_model(MODEL_PATH)
         self.frame = 0
         self.detected_word = ""
         self.window = window
         self.window.title(window_title)
-        self.window.geometry("1000x800")
-        
+        self.window.geometry("1200x800")
+        self.window.config(bg="#f0f0f0")  # Set light background color
+
+        # Set font and modern styling options
+        ctk.set_appearance_mode("Light")  # Set light mode (instead of dark mode)
+        ctk.set_default_color_theme("blue")  # Use a modern color theme (blue)
+
+        # Video capture source (camera)
         self.vid = cv2.VideoCapture(video_source)
-        
-        self.canvas = ctk.CTkCanvas(window, width=self.vid.get(cv2.CAP_PROP_FRAME_WIDTH), height=self.vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+        # Canvas for video feed
+        self.canvas = ctk.CTkCanvas(window, width=self.vid.get(cv2.CAP_PROP_FRAME_WIDTH), height=self.vid.get(cv2.CAP_PROP_FRAME_HEIGHT), bg="#ffffff")
         self.canvas.grid(row=0, column=0)
+
+        # Image for placeholder or background (optional)
         self.image_container = ctk.CTkImage(light_image=Image.open('hand_bb.jpg'),
-            dark_image=Image.open('hand_bb.jpg'),
-            size=(640, 480))
-        self.image_frame = ctk.CTkLabel(window, image=self.image_container, text="")
+                                            dark_image=Image.open('hand_bb.jpg'),
+                                            size=(500, 300))
+        self.image_frame = ctk.CTkLabel(window, image=self.image_container, text="", corner_radius=10)
         self.image_frame.grid(row=0, column=1)
 
-        self.frame_interval = 72
-        self.text_box = ctk.CTkTextbox(window, width=500, height=300)
+        # Textbox for detected words
+        self.text_box = ctk.CTkTextbox(window, width=500, height=300, corner_radius=10, font=("Arial", 45), border_width=2, border_color="#ccc")
         self.text_box.grid(row=1, column=0)
-        
+
+        # Update the UI regularly
+        self.frame_interval = 72
         self.update()
-        
+
+        # Start the Tkinter main loop
         self.window.mainloop()
-        
+
     def update(self):
         """
         Updates the frame, image, and prediction. Also updates the top 5 predictions and the text box.
@@ -66,9 +72,10 @@ class App:
             self.photo = ImageTk.PhotoImage(image = Image.fromarray(cv2.cvtColor(image_frame, cv2.COLOR_BGR2RGB)))
             self.canvas.create_image(0, 0, image=self.photo, anchor=ctk.NW)
 
-        if self.frame % self.frame_interval == 0:  
-            image_frame = self.detect_hand(image_frame)
-            if image_frame is not None:
+        if self.frame % self.frame_interval == 0:
+            # image_frame = self.detect_hand(image_frame)
+            cv2.imwrite("hand_bb.jpg", image_frame)
+            if True:
                 image_preprocessed = self.preprocess(image_frame)
                 self.image_frame.configure(image=ctk.CTkImage(light_image=Image.open('hand_bb.jpg'), dark_image=Image.open('hand_bb.jpg'), size=(500, 390)))
                 self.predict(image_preprocessed)
@@ -79,7 +86,7 @@ class App:
     def preprocess(self, image):
         """
         Preprocesses the image by resizing and expanding the dimensions.
-        
+
         Args:
             image: The image to preprocess.
 
@@ -93,10 +100,10 @@ class App:
     def predict(self, image):
         """
         Predicts the image using the model and updates the top 5 predictions and text box.
-        
+
         Args:
             image: The image to predict.
-            
+
         Returns:
             None
         """
@@ -116,15 +123,15 @@ class App:
         """
         top5 = np.argsort(prediction[0])[-5:]
         top5_percent = [round(prediction[0][i]*100, 2) for i in top5]
-        plt.style.use('dark_background')
         # create matplotlib figure
+        plt.style.use(['science','no-latex'])
         fig, ax = plt.subplots(figsize=(6, 3.7))
         ax.barh([self.class_labels[i] for i in top5], top5_percent)
         ax.set_xlabel('Probability (%)')
         ax.set_title('Top 5 Predictions')
         # add lables to bars
         for i, v in enumerate(top5_percent):
-            ax.text(v + 1, i, str(v), color='white', va='center')
+            ax.text(v + 1, i, str(v), color='black', va='center')
 
         # convert figure to tkinter canvas
         canvas = FigureCanvasTkAgg(fig, master=self.window)
@@ -208,14 +215,26 @@ class App:
 
             # create copy image with bounding box
             image_bb = image.copy()
-            cv2.rectangle(image_bb, (int(min_x), int(min_y)), (int(max_x), int(max_y)), (0, 255, 0), 2)
+            cv2.rectangle(image_bb, (int(min_x), int(min_y)), (int(max_x), int(max_y)), (0, 0, 0), 2)
+
+            res = str(detection_result.handedness[0])
+
+            # regular expression to extract score and display_name
+            score_pattern = r"score=([0-9.]+)"
+            display_name_pattern = r"display_name='([^']+)'"
+
+            score = round(float(re.search(score_pattern, res).group(1)), 3)
+            display_name = re.search(display_name_pattern, res).group(1)
+
+            # plot score on the rectangle in black
+            cv2.putText(image_bb, f"Identification Score: {score} | Hand: {display_name}", (int(min_x), int(min_y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
 
             # crop image
             image = image[min_y:max_y, min_x:max_x]
             # export cropped image
             cv2.imwrite("hand_bb.jpg", image_bb)
             return image
-        
+
         return None
 
 App(ctk.CTk(), "ASL Translator")

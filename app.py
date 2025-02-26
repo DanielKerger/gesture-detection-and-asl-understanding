@@ -73,9 +73,8 @@ class App:
             self.canvas.create_image(0, 0, image=self.photo, anchor=ctk.NW)
 
         if self.frame % self.frame_interval == 0:
-            # image_frame = self.detect_hand(image_frame)
-            cv2.imwrite("hand_bb.jpg", image_frame)
-            if True:
+            image_frame = self.detect_hand(image_frame)
+            if image_frame is not None:
                 image_preprocessed = self.preprocess(image_frame)
                 self.image_frame.configure(image=ctk.CTkImage(light_image=Image.open('hand_bb.jpg'), dark_image=Image.open('hand_bb.jpg'), size=(500, 390)))
                 self.predict(image_preprocessed)

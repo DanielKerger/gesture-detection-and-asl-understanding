@@ -1,6 +1,6 @@
-# From Pixels to Letters: Building a High-Accuracy, \red{CPU-Real-Time} \red{American Sign Language} Detection Pipeline
+# From Pixels to Letters: A High-Accuracy CPU-Real-Time American Sign Language Detection Pipeline
 ---
-Jonas Rheiner<sup>a</sup> , Daniel Kerger<sup>a</sup>, Matthias Drüppel<sup>b, 1</sup>
+Jonas Rheiner<sup>a, 1</sup> , Daniel Kerger<sup>a, 2</sup>, Matthias Drüppel<sup>b, 3</sup>
 
 <sup>a</sup> Center for Advanced Studies, Baden-Württemberg Cooperative State University (DHBW), Bildungscampus 13, 74076, Heilbronn, Germany
 
@@ -9,11 +9,29 @@ Jonas Rheiner<sup>a</sup> , Daniel Kerger<sup>a</sup>, Matthias Drüppel<sup>b, 
 
 ORCID(s): 0009-0005-3112-8634 (J. Rheiner); 0000-0003-3064-1637 (D. Kerger); 0000-0002-6375-7743 (M. Drüppel)
 
-Email: <sup>1</sup>matthias.drueppel@dhbw-stuttgart.de (M. Drüppel)
+Email: <sup>1</sup>jonas.rheiner@hpe.com (J. Rheiner) <sup>2</sup>daniel.kerger@hpe.com (D. Kerger) <sup>3</sup>matthias.drueppel@dhbw-stuttgart.de (M. Drüppel)
 
 ## Abstract
 
-We introduce a real-time American Sign Language (ASL) recognition system \red{bridging} communication barriers between the deaf community and the wider public. Our multi-step pipeline includes preprocessing, a hand detection stage, and a classification model. The model employs a MobileNetV3 convolutional neural network backbone with a classification head fine-tuned on the ASL Alphabet dataset. \red{We improve efficiency of ASL gestures detection by leveraging transfer learning yielding exceptional accuracy and minimal computational demands}. The pipeline achieves a test accuracy of 99.81\% - a new benchmark for ASL detection. With an inference time under 500 milliseconds without GPU acceleration, it ensures real-time performance on affordable hardware, enabling broad applicability. Our preprocessing pipeline and hand detection mechanism support model performance across diverse environments. The labelled datasets consist of static images of ASL hand signs representing each letter in the alphabet and three utility classes. To determine the appropriate amount of data for validation and testing, we propose a straightforward method to quantify the resulting statistical error. For this we calculate accuracy as a function of validation set size, and thus ensure sufficient data is allocated for reliable evaluation. Model interpretability is enhanced using Gradient-weighted Class Activation Mapping (Grad-CAM), which provides visual explanations by highlighting key image regions influencing predictions. This transparency fosters trust and improves user understanding of the system’s decisions. Our system sets a new benchmark in ASL gesture recognition by maximizing accuracy, while being efficient, and interpretable. By enabling seamless, real-time communication, it promotes greater inclusivity for the deaf and hard-of-hearing communities.
+We introduce a CPU-real-time American Sign Language (ASL) recognition system designed to
+bridge communication barriers between the deaf community and the broader public. Our multi-
+step pipeline includes preprocessing, a hand detection stage, and a classification model using a
+MobileNetV3 convolutional neural network backbone followed by a classification head. We train and
+evaluate our model using a combined dataset of 252k labelled images from two distinct ASL datasets.
+This increases generalization on unseen data and strengthens our evaluation. We employ a two-step
+training: The backbone is initialized through transfer learning and frozen for the initial training of the
+head. A second training phase with lower learning rate and unfrozen weights yields an exceptional test
+accuracy of 99.95% and >99.93% on the two datasets - setting new benchmarks for ASL detection.
+With an CPU-inference time under 500 milliseconds, it ensures real-time performance on affordable
+hardware. We propose a straightforward method to determine the amount of data needed for validation
+and testing and to quantify the remaining statistical error. For this we calculate accuracy as a function
+of validation set size, and thus ensure sufficient data is allocated for evaluation. Model interpretability
+is enhanced using Gradient-weighted Class Activation Mapping (Grad-CAM), which provides visual
+explanations by highlighting key image regions influencing predictions. This transparency fosters trust
+and improves user understanding of the system’s decisions. Our system sets new benchmarks in ASL
+gesture recognition by closing the accuracy gap of state-of-the-art solutions, while offering broad
+applicability through CPU-real-time inference and interpretability of our predictions.
+
 
 ## Demo
 
@@ -21,7 +39,7 @@ We introduce a real-time American Sign Language (ASL) recognition system \red{br
 
 ## Overview
 
-This project implements a framework to detect American Sign Language (ASL) signs using deep learning. The framework is based on the [MobileNetV2](https://arxiv.org/abs/1801.04381) architecture and uses the [ASL Alphabet dataset](https://www.kaggle.com/grassknoted/asl-alphabet) from Kaggle. The dataset contains 87,000 images of 200x200 pixels, each representing a letter of the ASL alphabet.
+This project implements a framework to detect American Sign Language (ASL) signs using deep learning. The framework is based on the [MobileNetV2](https://arxiv.org/abs/1801.04381) architecture.
 
 The framework is implemented in Python using the [TensorFlow](https://www.tensorflow.org/) and [Keras](https://keras.io/) libraries. It consists of the following steps:
 
